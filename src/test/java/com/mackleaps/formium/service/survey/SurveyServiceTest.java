@@ -75,4 +75,41 @@ public class SurveyServiceTest {
         surveyService.deleteSurvey(NOT_EXISTING_SURVEY_ID);
     }
 
+    @Test    
+    public void TesteCriarPesquisa () {                      
+        Survey pesquisa = new Survey();
+        pesquisa.setPrefix("XXX");
+        pesquisa.setTitle("YYY");
+        pesquisa.setDescription("ZZZ");
+   
+        when(surveyRepository.saveAndFlush(pesquisa)).thenReturn(pesquisa);
+
+        surveyService.addSurvey(pesquisa);
+    }
+
+      @Test(expected = Exception.class)    
+    public void ErroDeTitulo () {                      
+        Survey pesquisa = new Survey();
+        pesquisa.setPrefix("XXX");
+        pesquisa.setTitle("YYYYYYYYYYYYYYYYY");
+        pesquisa.setDescription("ZZZ");
+   
+        when(surveyRepository.saveAndFlush(pesquisa)).thenThrow(Exception.class);
+
+        surveyService.addSurvey(pesquisa);
+    }  
+    
+          @Test(expected = Exception.class)    
+    public void ErroDeTitulo2 () {                      
+        Survey pesquisa = new Survey();
+        pesquisa.setPrefix("XXX");
+        pesquisa.setTitle("");
+        pesquisa.setDescription("ZZZ");
+   
+        when(surveyRepository.saveAndFlush(pesquisa)).thenThrow(Exception.class);
+
+        surveyService.addSurvey(pesquisa);
+    }  
+    
+    
 }
